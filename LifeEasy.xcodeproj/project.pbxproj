@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0311281C9CD95200D26039 /* RegexHighlightView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0311261C9CD95200D26039 /* RegexHighlightView.m */; };
+		1F0311291C9CD95200D26039 /* Syntax Definitions in Resources */ = {isa = PBXBuildFile; fileRef = 1F0311271C9CD95200D26039 /* Syntax Definitions */; };
+		1F03112C1C9CE91400D26039 /* Assets-showHTMLCode.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F03112B1C9CE91400D26039 /* Assets-showHTMLCode.xcassets */; };
 		1FF711491C92F3BD004B39A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF711481C92F3BD004B39A9 /* AppDelegate.swift */; };
 		1FF7114B1C92F3BD004B39A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7114A1C92F3BD004B39A9 /* ViewController.swift */; };
 		1FF7114E1C92F3BD004B39A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FF7114C1C92F3BD004B39A9 /* Main.storyboard */; };
@@ -43,6 +46,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F0311251C9CD95200D26039 /* RegexHighlightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexHighlightView.h; sourceTree = "<group>"; };
+		1F0311261C9CD95200D26039 /* RegexHighlightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexHighlightView.m; sourceTree = "<group>"; };
+		1F0311271C9CD95200D26039 /* Syntax Definitions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Syntax Definitions"; sourceTree = "<group>"; };
+		1F03112B1C9CE91400D26039 /* Assets-showHTMLCode.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-showHTMLCode.xcassets"; sourceTree = "<group>"; };
+		1F0862A61C9C5BA9005FB3BA /* showHTMLCode-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "showHTMLCode-Bridging-Header.h"; sourceTree = "<group>"; };
 		1FF711451C92F3BC004B39A9 /* LifeEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FF711481C92F3BD004B39A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FF7114A1C92F3BD004B39A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +83,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F03112A1C9CD95A00D26039 /* RegexHighlightView */ = {
+			isa = PBXGroup;
+			children = (
+				1F0311251C9CD95200D26039 /* RegexHighlightView.h */,
+				1F0311261C9CD95200D26039 /* RegexHighlightView.m */,
+				1F0311271C9CD95200D26039 /* Syntax Definitions */,
+			);
+			name = RegexHighlightView;
+			sourceTree = "<group>";
+		};
 		1FF7113C1C92F3BC004B39A9 = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +131,9 @@
 				1FF7116F1C93C4B8004B39A9 /* MainInterface.storyboard */,
 				1FF7116D1C9300F2004B39A9 /* ShowHTML.js */,
 				1FF711651C92F4CA004B39A9 /* Info.plist */,
+				1F03112A1C9CD95A00D26039 /* RegexHighlightView */,
+				1F0862A61C9C5BA9005FB3BA /* showHTMLCode-Bridging-Header.h */,
+				1F03112B1C9CE91400D26039 /* Assets-showHTMLCode.xcassets */,
 			);
 			path = showHTMLCode;
 			sourceTree = "<group>";
@@ -210,7 +231,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F0311291C9CD95200D26039 /* Syntax Definitions in Resources */,
 				1FF7116E1C9300F2004B39A9 /* ShowHTML.js in Resources */,
+				1F03112C1C9CE91400D26039 /* Assets-showHTMLCode.xcassets in Resources */,
 				1FF711701C93C4B8004B39A9 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FF711611C92F4CA004B39A9 /* ActionViewController.swift in Sources */,
+				1F0311281C9CD95200D26039 /* RegexHighlightView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,11 +378,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = LifeEasy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbb.study.LifeEasy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -366,17 +392,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = LifeEasy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbb.study.LifeEasy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
 		1FF7116A1C92F4CA004B39A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = showHTMLCode/Info.plist;
@@ -385,12 +416,17 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "showHTMLCode/showHTMLCode-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		1FF7116B1C92F4CA004B39A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = showHTMLCode/Info.plist;
@@ -399,6 +435,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "showHTMLCode/showHTMLCode-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -421,6 +458,7 @@
 				1FF711591C92F3BD004B39A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1FF711691C92F4CA004B39A9 /* Build configuration list for PBXNativeTarget "showHTMLCode" */ = {
 			isa = XCConfigurationList;
@@ -429,6 +467,7 @@
 				1FF7116B1C92F4CA004B39A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

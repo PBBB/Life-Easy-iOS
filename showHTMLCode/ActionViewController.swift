@@ -9,13 +9,14 @@
 import UIKit
 import MobileCoreServices
 
+
 class ActionViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        //textView.setHighlightDefinitionWithContentsOfFile(NSBundle.mainBundle().pathForResource("html", ofType: "plist", inDirectory: "Syntax Definitions"))
         // Get the item[s] we're handling from the extension context.
         
         // For example, look for an image and place it into an image view.
@@ -38,15 +39,12 @@ class ActionViewController: UIViewController {
                     return
                 }
                 if let headText = realExtensionDic.valueForKey("head") as? String, let bodyText = realExtensionDic.valueForKey("body") as? String {
-                    htmlText = htmlText + headText + "\n" + bodyText
+                    htmlText = htmlText + "<head>\n" + headText + "</head>\n<body>\n" + bodyText + "\n</body>"
                 }
                 
-//                if let headText = (dic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary)![NSExtensionJavaScriptPreprocessingResultsKey]["head"] as? String, let bodyText = dic[NSExtensionJavaScriptPreprocessingResultsKey]![NSExtensionJavaScriptPreprocessingResultsKey]!!["body"] as? String {
-//                    htmlText += headText
-//                    htmlText += bodyText
-//                }
                 dispatch_async(dispatch_get_main_queue()){
                     self.textView.text = "\(htmlText)"
+                    self.title = realExtensionDic.valueForKey("title") as? String
                 }
                 
             }
