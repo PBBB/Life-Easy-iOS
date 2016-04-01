@@ -18,7 +18,7 @@ class ActionViewController: UIViewController {
         super.viewDidLoad()
         //textView.setHighlightDefinitionWithContentsOfFile(NSBundle.mainBundle().pathForResource("html", ofType: "plist", inDirectory: "Syntax Definitions"))
         // Get the item[s] we're handling from the extension context.
-        
+        self.automaticallyAdjustsScrollViewInsets = false
         // For example, look for an image and place it into an image view.
         // Replace this with something appropriate for the type[s] your extension supports.
         for item: AnyObject in self.extensionContext!.inputItems {
