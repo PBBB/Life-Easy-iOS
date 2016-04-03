@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F03112C1C9CE91400D26039 /* Assets-showHTMLCode.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F03112B1C9CE91400D26039 /* Assets-showHTMLCode.xcassets */; };
+		1F3255BD1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3255BC1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift */; };
 		1FF711491C92F3BD004B39A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF711481C92F3BD004B39A9 /* AppDelegate.swift */; };
 		1FF7114B1C92F3BD004B39A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7114A1C92F3BD004B39A9 /* ViewController.swift */; };
 		1FF7114E1C92F3BD004B39A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FF7114C1C92F3BD004B39A9 /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		1F03112B1C9CE91400D26039 /* Assets-showHTMLCode.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-showHTMLCode.xcassets"; sourceTree = "<group>"; };
+		1F3255BC1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBHighlightTextStorage.swift; sourceTree = "<group>"; };
 		1FF711451C92F3BC004B39A9 /* LifeEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FF711481C92F3BD004B39A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FF7114A1C92F3BD004B39A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				1FF711601C92F4CA004B39A9 /* ActionViewController.swift */,
+				1F3255BC1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift */,
 				1FF7116F1C93C4B8004B39A9 /* MainInterface.storyboard */,
 				1FF7116D1C9300F2004B39A9 /* ShowHTML.js */,
 				1FF711651C92F4CA004B39A9 /* Info.plist */,
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FF711611C92F4CA004B39A9 /* ActionViewController.swift in Sources */,
+				1F3255BD1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,17 +16,13 @@ class ActionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //textView.setHighlightDefinitionWithContentsOfFile(NSBundle.mainBundle().pathForResource("html", ofType: "plist", inDirectory: "Syntax Definitions"))
-        // Get the item[s] we're handling from the extension context.
         self.automaticallyAdjustsScrollViewInsets = false
-        // For example, look for an image and place it into an image view.
-        // Replace this with something appropriate for the type[s] your extension supports.
+
         for item: AnyObject in self.extensionContext!.inputItems {
             let extItem = item as! NSExtensionItem
             let itemProvider = extItem.attachments!.first! as! NSItemProvider
             itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) {
                 results, error in
-//                let result = NSDictionary(coder: results)
                 guard results != nil else {
                     return
                 }
@@ -43,10 +39,11 @@ class ActionViewController: UIViewController {
                 }
                 
                 dispatch_async(dispatch_get_main_queue()){
-                    self.textView.text = "\(htmlText)"
+//                    self.textView.text = "\(htmlText)"
+                    let htmlHighlightTextStorage = PBHighlightTextStorage(text: htmlText, hightRuleExpression: nil)
+                    htmlHighlightTextStorage.addLayoutManager(self.textView.layoutManager)
                     self.title = realExtensionDic.valueForKey("title") as? String
                 }
-                
             }
         }
     }
@@ -62,19 +59,5 @@ class ActionViewController: UIViewController {
         self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
     }
     
-//    override func beginRequestWithExtensionContext(context: NSExtensionContext) {
-//        super.beginRequestWithExtensionContext(context)
-//        for item: AnyObject in context.inputItems {
-//            let extItem = item as! NSExtensionItem
-//            let itemProvider = extItem.attachments!.first! as! NSItemProvider
-//            itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) {
-//                results, error in
-//                //                let result = NSDictionary(coder: results)
-//                dispatch_async(dispatch_get_main_queue()){
-//                    self.textView.text = "\(results)"
-//                }
-//            }
-//        }
-//    }
 
 }
