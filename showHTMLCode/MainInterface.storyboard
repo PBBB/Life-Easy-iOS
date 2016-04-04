@@ -16,21 +16,7 @@
                     <view key="view" contentMode="scaleToFill" id="UlI-Er-cqp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Something went wrong. Please try again." translatesAutoresizingMaskIntoConstraints="NO" id="hIJ-vu-FMf">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="11"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="hIJ-vu-FMf" firstAttribute="leading" secondItem="UlI-Er-cqp" secondAttribute="leading" id="2gZ-7p-HEs"/>
-                            <constraint firstAttribute="trailing" secondItem="hIJ-vu-FMf" secondAttribute="trailing" id="5JU-O4-wTW"/>
-                            <constraint firstItem="hIJ-vu-FMf" firstAttribute="bottom" secondItem="u64-Kc-U0D" secondAttribute="top" id="JBf-64-lM9"/>
-                            <constraint firstItem="hIJ-vu-FMf" firstAttribute="top" secondItem="ZgO-dQ-Gh3" secondAttribute="bottom" id="iZH-RN-Wmj"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Oops" id="DlM-kh-JPO">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="l6G-xT-KvF">
@@ -39,9 +25,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="textView" destination="hIJ-vu-FMf" id="9Kc-gg-kgk"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qia-MU-QjC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
