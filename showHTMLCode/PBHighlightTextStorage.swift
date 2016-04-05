@@ -20,7 +20,7 @@ class PBHighlightTextStorage: NSTextStorage {
     }
     
     convenience override init() {
-        self.init(text: "Something went wrong. Please try again.", highlightRuleExpression: nil)
+        self.init(text: "", highlightRuleExpression: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

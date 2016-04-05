@@ -10,38 +10,39 @@ import UIKit
 import MobileCoreServices
 
 
-class ActionViewController: UIViewController {
+class ActionViewController: UIViewController, UITextViewDelegate {
     
     var htmlTextView: UITextView!
     var textStorage: PBHighlightTextStorage!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        createTextView()
 //        self.automaticallyAdjustsScrollViewInsets = false
         
         //initiate NSTextStorage, NSLayoutManager, NSTextContainer and UITextView
-        let htmlHighlightTextStorage = PBHighlightTextStorage()
-        let layoutManager = NSLayoutManager()
-        htmlHighlightTextStorage.addLayoutManager(layoutManager)
-        
-        let textContainer = NSTextContainer()
-        layoutManager.addTextContainer(textContainer)
-        
-        htmlTextView = UITextView(frame: CGRectZero, textContainer: textContainer)
-//        htmlTextView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        htmlTextView.translatesAutoresizingMaskIntoConstraints = false
-//        htmlTextView.autoresizingMask = UIViewAutoresizing.FlexibleWidth.union(UIViewAutoresizing.FlexibleHeight)
-        
-        self.view.addSubview(htmlTextView)
-        
-//        为htmlTextView添加约束
-        let views = ["htmlTextView": htmlTextView]
-        let hFormatString = "|[htmlTextView]|"
-        let vFormatString = "V:|[htmlTextView]|"
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat(hFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
-        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
-        
+//        let htmlHighlightTextStorage = PBHighlightTextStorage()
+//        let layoutManager = NSLayoutManager()
+//        htmlHighlightTextStorage.addLayoutManager(layoutManager)
+//        
+//        let textContainer = NSTextContainer()
+//        layoutManager.addTextContainer(textContainer)
+//        
+//        htmlTextView = UITextView(frame: CGRectZero, textContainer: textContainer)
+////        htmlTextView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+//        htmlTextView.translatesAutoresizingMaskIntoConstraints = false
+////        htmlTextView.autoresizingMask = UIViewAutoresizing.FlexibleWidth.union(UIViewAutoresizing.FlexibleHeight)
+//        
+//        self.view.addSubview(htmlTextView)
+//        
+////        为htmlTextView添加约束
+//        let views = ["htmlTextView": htmlTextView]
+//        let hFormatString = "|[htmlTextView]|"
+//        let vFormatString = "V:|[htmlTextView]|"
+//        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat(hFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
+//        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
+//        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
+//        
 
         for item: AnyObject in self.extensionContext!.inputItems {
             let extItem = item as! NSExtensionItem
@@ -67,7 +68,7 @@ class ActionViewController: UIViewController {
 //                    self.textView.text = "\(htmlText)"
 //                    let htmlHighlightTextStorage = PBHighlightTextStorage(text: htmlText, hightRuleExpression: nil)
 //                    htmlHighlightTextStorage.addLayoutManager(self.textView.layoutManager)
-                    htmlHighlightTextStorage.appendAttributedString(NSMutableAttributedString(string: htmlText, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
+                    self.textStorage.appendAttributedString(NSMutableAttributedString(string: htmlText, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
                     self.title = realExtensionDic.valueForKey("title") as? String
                 }
             }
@@ -78,23 +79,31 @@ class ActionViewController: UIViewController {
 //        htmlTextView.frame = view.bounds
 //    }
     
-//    func createTextView() {
-//        let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
-//        let attrString = NSAttributedString(string: "Some initial text.", attributes: attrs)
-//        textStorage = PBHighlightTextStorage()
-//        textStorage.appendAttributedString(attrString)
-//        
-//        let newTextViewRect = view.bounds
-//        
-//        let layoutManager = NSLayoutManager()
-//        
-//        let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
-//        let container = NSTextContainer(size: containerSize)
-//        container.widthTracksTextView = true
-//        layoutManager.addTextContainer(container)
-//        textStorage.addLayoutManager(layoutManager)
-//        
-//    }
+    func createTextView() {
+        let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
+        let attrString = NSAttributedString(string: "Some initial text.", attributes: attrs)
+        textStorage = PBHighlightTextStorage()
+        textStorage.appendAttributedString(attrString)
+        
+        let newTextViewRect = view.bounds
+        
+        let layoutManager = NSLayoutManager()
+        
+        let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
+        let container = NSTextContainer(size: containerSize)
+        container.widthTracksTextView = true
+        layoutManager.addTextContainer(container)
+        textStorage.addLayoutManager(layoutManager)
+        
+        htmlTextView = UITextView(frame: newTextViewRect, textContainer: container)
+        htmlTextView.delegate = self
+        view.addSubview(htmlTextView)
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        htmlTextView.frame = view.bounds
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
