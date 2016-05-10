@@ -10,17 +10,17 @@ import UIKit
 
 class PBHighlightTextStorage: NSTextStorage {
     var _attributedString: NSMutableAttributedString
-    var _highlightRuleExpression: NSRegularExpression?
+    var _highlightRules: [NSRegularExpression : [String : AnyObject]]?
     
     //自定义初始化方法
-    init(text: String, highlightRuleExpression: NSRegularExpression?) {
+    init(text: String, highlightRules: [NSRegularExpression : [String : AnyObject]]?) {
         self._attributedString = NSMutableAttributedString(string: text)
-        self._highlightRuleExpression = highlightRuleExpression
+        self._highlightRules = highlightRules
         super.init()
     }
     
     convenience override init() {
-        self.init(text: "", highlightRuleExpression: nil)
+        self.init(text: "", highlightRules: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,8 +31,8 @@ class PBHighlightTextStorage: NSTextStorage {
             self._attributedString = NSMutableAttributedString()
         }
         
-        if let expression = aDecoder.decodeObjectForKey("_highlightRuleExpression") as? NSRegularExpression {
-            self._highlightRuleExpression = expression
+        if let rules = aDecoder.decodeObjectForKey("_highlightRules") as? [NSRegularExpression : [String : AnyObject]] {
+            self._highlightRules = rules
         }
         super.init(coder: aDecoder)
     }
@@ -41,7 +41,7 @@ class PBHighlightTextStorage: NSTextStorage {
         print("encode with coder")
         super.encodeWithCoder(aCoder)
         aCoder.encodeObject(_attributedString, forKey: "_attributedString")
-        aCoder.encodeObject(_highlightRuleExpression, forKey: "_highlightRuleExpression")
+        aCoder.encodeObject(_highlightRules, forKey: "_highlightRules")
     }
     
     
@@ -71,7 +71,22 @@ class PBHighlightTextStorage: NSTextStorage {
     }
     
     //处理高亮
-    override func processEditing() {
-        super.processEditing()
-    }
+//    override func processEditing() {
+//        self.performHighlightingForRange(self.editedRange)
+//        super.processEditing()
+//    }
+//    
+//    func performHighlightingForRange(changedRange: NSRange) {
+//        if self._highlightRules == nil {
+//            print("_highlightRules nil")
+//            return
+//        }
+//        for (regex, attribute) in self._highlightRules! {
+//            regex.enumerateMatchesInString(self._attributedString.string, options: .WithTransparentBounds, range: changedRange) { (result, flags, stop) in
+//                if let range = result?.range {
+//                    self._attributedString.addAttributes(attribute, range: range)
+//                }
+//            }
+//        }
+//    }
 }

@@ -20,7 +20,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         createTextView()
 //        self.automaticallyAdjustsScrollViewInsets = false
         
-        //initiate NSTextStorage, NSLayoutManager, NSTextContainer and UITextView
+//        initiate NSTextStorage, NSLayoutManager, NSTextContainer and UITextView
 //        let htmlHighlightTextStorage = PBHighlightTextStorage()
 //        let layoutManager = NSLayoutManager()
 //        htmlHighlightTextStorage.addLayoutManager(layoutManager)
@@ -42,8 +42,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat(hFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
 //        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
 //        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
-//        
-
+        var htmlText = ""
         for item: AnyObject in self.extensionContext!.inputItems {
             let extItem = item as! NSExtensionItem
             let itemProvider = extItem.attachments!.first! as! NSItemProvider
@@ -53,7 +52,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
                     return
                 }
                 let dic = NSDictionary(object: results!, forKey: NSExtensionJavaScriptPreprocessingResultsKey)
-                var htmlText = ""
+//                var htmlText = ""
                 guard let extensionDic = dic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
                     return
                 }
@@ -63,28 +62,40 @@ class ActionViewController: UIViewController, UITextViewDelegate {
                 if let headText = realExtensionDic.valueForKey("head") as? String, let bodyText = realExtensionDic.valueForKey("body") as? String {
                     htmlText = htmlText + "<head>\n" + headText + "</head>\n<body>\n" + bodyText + "\n</body>"
                 }
-                
-                dispatch_async(dispatch_get_main_queue()){
-//                    self.textView.text = "\(htmlText)"
-//                    let htmlHighlightTextStorage = PBHighlightTextStorage(text: htmlText, hightRuleExpression: nil)
-//                    htmlHighlightTextStorage.addLayoutManager(self.textView.layoutManager)
-                    self.textStorage.beginEditing()
-                    self.textStorage.appendAttributedString(NSMutableAttributedString(string: htmlText, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
-                    self.textStorage.endEditing()
-                    self.title = realExtensionDic.valueForKey("title") as? String
-                }
             }
         }
+        
+        self.textStorage.beginEditing()
+        self.textStorage.appendAttributedString(NSMutableAttributedString(string: htmlText, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
+        self.textStorage.endEditing()
+        
+        
+//        dispatch_async(dispatch_get_main_queue()){
+//            //                    self.textView.text = "\(htmlText)"
+//            //                    let htmlHighlightTextStorage = PBHighlightTextStorage(text: htmlText, hightRuleExpression: nil)
+//            //                    htmlHighlightTextStorage.addLayoutManager(self.textView.layoutManager)
+//            self.title = "fuck"
+//        }
     }
     
-    override func viewDidLayoutSubviews() {
-        htmlTextView.frame = view.bounds
-    }
+//    override func viewDidLayoutSubviews() {
+//        htmlTextView.frame = view.bounds
+//    }
     
     func createTextView() {
         let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
         let attrString = NSAttributedString(string: "", attributes: attrs)
-        textStorage = PBHighlightTextStorage()
+        
+        do {
+            let HTMLTagregularExpression = try NSRegularExpression(pattern: "<\\w*[ >]", options: .CaseInsensitive)
+            let HTMLTagEndregularExpression = try NSRegularExpression(pattern: "<\\/\\w*>", options: .CaseInsensitive)
+            let HTMLTagColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+            let HTMLTagAttribute = [NSForegroundColorAttributeName : HTMLTagColor]
+            textStorage = PBHighlightTextStorage(text: "", highlightRules: [HTMLTagregularExpression : HTMLTagAttribute, HTMLTagEndregularExpression : HTMLTagAttribute])
+        } catch let error{
+            textStorage = PBHighlightTextStorage()
+            print(error)
+        }
         textStorage.appendAttributedString(attrString)
         
         let newTextViewRect = view.bounds
@@ -106,9 +117,9 @@ class ActionViewController: UIViewController, UITextViewDelegate {
     
     
     
-    override func viewWillLayoutSubviews() {
-        htmlTextView.frame = view.bounds
-    }
+//    override func viewWillLayoutSubviews() {
+//        htmlTextView.frame = view.bounds
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
