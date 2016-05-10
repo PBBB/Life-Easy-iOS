@@ -43,32 +43,32 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
 //        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
         var htmlText = ""
-        for item: AnyObject in self.extensionContext!.inputItems {
-            let extItem = item as! NSExtensionItem
-            let itemProvider = extItem.attachments!.first! as! NSItemProvider
-            itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) {
-                results, error in
-                guard results != nil else {
-                    return
-                }
-                let dic = NSDictionary(object: results!, forKey: NSExtensionJavaScriptPreprocessingResultsKey)
-//                var htmlText = ""
-                guard let extensionDic = dic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
-                    return
-                }
-                guard let realExtensionDic = extensionDic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
-                    return
-                }
-                if let headText = realExtensionDic.valueForKey("head") as? String, let bodyText = realExtensionDic.valueForKey("body") as? String {
-                    htmlText = htmlText + "<head>\n" + headText + "</head>\n<body>\n" + bodyText + "\n</body>"
-                }
-            }
-        }
-        
-        self.textStorage.beginEditing()
-        self.textStorage.appendAttributedString(NSMutableAttributedString(string: htmlText, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
-        self.textStorage.endEditing()
-        
+        let string = try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("SampleText", ofType: "txt")!)
+        htmlText = string
+//        htmlTextView.text = htmlText
+        self.updateTextStorageWithText(htmlText)
+//        for item: AnyObject in self.extensionContext!.inputItems {
+//            let extItem = item as! NSExtensionItem
+//            let itemProvider = extItem.attachments!.first! as! NSItemProvider
+//            itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) { results, error in
+//                guard results != nil else {
+//                    return
+//                }
+//                let dic = NSDictionary(object: results!, forKey: NSExtensionJavaScriptPreprocessingResultsKey)
+//                guard let extensionDic = dic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
+//                    return
+//                }
+//                guard let realExtensionDic = extensionDic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
+//                    return
+//                }
+//                if let headText = realExtensionDic.valueForKey("head") as? String, let bodyText = realExtensionDic.valueForKey("body") as? String {
+//                    htmlText = htmlText + "<head>\n" + headText + "</head>\n<body>\n" + bodyText + "\n</body>"
+//                    self.updateTextStorageWithText(htmlText)
+//                }
+//            }
+//        }
+
+
         
 //        dispatch_async(dispatch_get_main_queue()){
 //            //                    self.textView.text = "\(htmlText)"
@@ -81,6 +81,14 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //    override func viewDidLayoutSubviews() {
 //        htmlTextView.frame = view.bounds
 //    }
+    
+    func updateTextStorageWithText(text: String) {
+//        dispatch_async(dispatch_get_main_queue()){
+            self.textStorage.beginEditing()
+            self.textStorage.appendAttributedString(NSMutableAttributedString(string: text, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
+            self.textStorage.endEditing()
+//        }
+    }
     
     func createTextView() {
         let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
@@ -99,7 +107,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         textStorage.appendAttributedString(attrString)
         
         let newTextViewRect = view.bounds
-        
+
         let layoutManager = NSLayoutManager()
         
         let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
@@ -109,6 +117,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         textStorage.addLayoutManager(layoutManager)
         
         htmlTextView = UITextView(frame: newTextViewRect, textContainer: container)
+//        htmlTextView = UITextView(frame: newTextViewRect) //使用默认UITextView
         htmlTextView.delegate = self
         htmlTextView.editable = false
         view.addSubview(htmlTextView)
