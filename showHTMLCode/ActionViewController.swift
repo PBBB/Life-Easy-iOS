@@ -47,6 +47,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         htmlText = string
 //        htmlTextView.text = htmlText
         self.updateTextStorageWithText(htmlText)
+//        htmlTextView.layoutManager.ensureLayoutForTextContainer(htmlTextView.textContainer)
 //        for item: AnyObject in self.extensionContext!.inputItems {
 //            let extItem = item as! NSExtensionItem
 //            let itemProvider = extItem.attachments!.first! as! NSItemProvider
@@ -109,6 +110,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         let newTextViewRect = view.bounds
 
         let layoutManager = NSLayoutManager()
+        layoutManager.allowsNonContiguousLayout = true
         
         let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
         let container = NSTextContainer(size: containerSize)
