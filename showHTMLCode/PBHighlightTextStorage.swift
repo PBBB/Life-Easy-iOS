@@ -66,12 +66,12 @@ class PBHighlightTextStorage: NSTextStorage {
     override func setAttributes(attrs: [String : AnyObject]?, range: NSRange) {
         beginEditing()
         _attributedString.setAttributes(attrs, range: range)
-        self.edited(.EditedCharacters, range: range, changeInLength: 0)
+        self.edited(.EditedAttributes, range: range, changeInLength: 0)
         endEditing()
     }
     
     //处理高亮
     override func processEditing() {
-        print("processEditing")
+        super.processEditing()
     }
 }

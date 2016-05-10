@@ -68,20 +68,22 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //                    self.textView.text = "\(htmlText)"
 //                    let htmlHighlightTextStorage = PBHighlightTextStorage(text: htmlText, hightRuleExpression: nil)
 //                    htmlHighlightTextStorage.addLayoutManager(self.textView.layoutManager)
+                    self.textStorage.beginEditing()
                     self.textStorage.appendAttributedString(NSMutableAttributedString(string: htmlText, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
+                    self.textStorage.endEditing()
                     self.title = realExtensionDic.valueForKey("title") as? String
                 }
             }
         }
     }
     
-//    override func viewDidLayoutSubviews() {
-//        htmlTextView.frame = view.bounds
-//    }
+    override func viewDidLayoutSubviews() {
+        htmlTextView.frame = view.bounds
+    }
     
     func createTextView() {
         let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
-        let attrString = NSAttributedString(string: "Some initial text.", attributes: attrs)
+        let attrString = NSAttributedString(string: "", attributes: attrs)
         textStorage = PBHighlightTextStorage()
         textStorage.appendAttributedString(attrString)
         
@@ -97,11 +99,14 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         
         htmlTextView = UITextView(frame: newTextViewRect, textContainer: container)
         htmlTextView.delegate = self
+        htmlTextView.editable = false
         view.addSubview(htmlTextView)
         
     }
     
-    override func viewDidLayoutSubviews() {
+    
+    
+    override func viewWillLayoutSubviews() {
         htmlTextView.frame = view.bounds
     }
 
