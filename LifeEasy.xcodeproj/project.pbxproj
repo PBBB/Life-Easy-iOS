@@ -19,6 +19,7 @@
 		1FF711681C92F4CA004B39A9 /* showHTMLCode.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FF7115E1C92F4CA004B39A9 /* showHTMLCode.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1FF7116E1C9300F2004B39A9 /* ShowHTML.js in Resources */ = {isa = PBXBuildFile; fileRef = 1FF7116D1C9300F2004B39A9 /* ShowHTML.js */; };
 		1FF711701C93C4B8004B39A9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FF7116F1C93C4B8004B39A9 /* MainInterface.storyboard */; };
+		2B36887F1CE2C9E700233421 /* PBAttributedStringHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B36887E1CE2C9E700233421 /* PBAttributedStringHighlighter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		1FF711651C92F4CA004B39A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FF7116D1C9300F2004B39A9 /* ShowHTML.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ShowHTML.js; sourceTree = "<group>"; };
 		1FF7116F1C93C4B8004B39A9 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		2B36887E1CE2C9E700233421 /* PBAttributedStringHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBAttributedStringHighlighter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				1FF711601C92F4CA004B39A9 /* ActionViewController.swift */,
+				2B36887E1CE2C9E700233421 /* PBAttributedStringHighlighter.swift */,
 				1F427E4D1CE22B7C00C0C6BA /* SampleText.txt */,
 				1F3255BC1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift */,
 				1FF7116F1C93C4B8004B39A9 /* MainInterface.storyboard */,
@@ -242,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B36887F1CE2C9E700233421 /* PBAttributedStringHighlighter.swift in Sources */,
 				1FF711611C92F4CA004B39A9 /* ActionViewController.swift in Sources */,
 				1F3255BD1CB0AF7600EA5AF4 /* PBHighlightTextStorage.swift in Sources */,
 			);

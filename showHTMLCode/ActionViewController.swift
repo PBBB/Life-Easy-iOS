@@ -14,60 +14,38 @@ class ActionViewController: UIViewController, UITextViewDelegate {
     
     var htmlTextView: UITextView!
     var textStorage: PBHighlightTextStorage!
+    var highlighter: PBAttributedStringHighlighter!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        initializeHighlighter()
         createTextView()
-//        self.automaticallyAdjustsScrollViewInsets = false
-        
-//        initiate NSTextStorage, NSLayoutManager, NSTextContainer and UITextView
-//        let htmlHighlightTextStorage = PBHighlightTextStorage()
-//        let layoutManager = NSLayoutManager()
-//        htmlHighlightTextStorage.addLayoutManager(layoutManager)
-//        
-//        let textContainer = NSTextContainer()
-//        layoutManager.addTextContainer(textContainer)
-//        
-//        htmlTextView = UITextView(frame: CGRectZero, textContainer: textContainer)
-////        htmlTextView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-//        htmlTextView.translatesAutoresizingMaskIntoConstraints = false
-////        htmlTextView.autoresizingMask = UIViewAutoresizing.FlexibleWidth.union(UIViewAutoresizing.FlexibleHeight)
-//        
-//        self.view.addSubview(htmlTextView)
-//        
-////        为htmlTextView添加约束
-//        let views = ["htmlTextView": htmlTextView]
-//        let hFormatString = "|[htmlTextView]|"
-//        let vFormatString = "V:|[htmlTextView]|"
-//        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat(hFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
-//        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
-//        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
+
         var htmlText = ""
-        let string = try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("SampleText", ofType: "txt")!)
-        htmlText = string
-//        htmlTextView.text = htmlText
-        self.updateTextStorageWithText(htmlText)
-//        htmlTextView.layoutManager.ensureLayoutForTextContainer(htmlTextView.textContainer)
-//        for item: AnyObject in self.extensionContext!.inputItems {
-//            let extItem = item as! NSExtensionItem
-//            let itemProvider = extItem.attachments!.first! as! NSItemProvider
-//            itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) { results, error in
-//                guard results != nil else {
-//                    return
-//                }
-//                let dic = NSDictionary(object: results!, forKey: NSExtensionJavaScriptPreprocessingResultsKey)
-//                guard let extensionDic = dic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
-//                    return
-//                }
-//                guard let realExtensionDic = extensionDic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
-//                    return
-//                }
-//                if let headText = realExtensionDic.valueForKey("head") as? String, let bodyText = realExtensionDic.valueForKey("body") as? String {
-//                    htmlText = htmlText + "<head>\n" + headText + "</head>\n<body>\n" + bodyText + "\n</body>"
-//                    self.updateTextStorageWithText(htmlText)
-//                }
-//            }
-//        }
+        for item: AnyObject in self.extensionContext!.inputItems {
+            let extItem = item as! NSExtensionItem
+            let itemProvider = extItem.attachments!.first! as! NSItemProvider
+            itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) { results, error in
+                guard results != nil else {
+                    return
+                }
+                let dic = NSDictionary(object: results!, forKey: NSExtensionJavaScriptPreprocessingResultsKey)
+                guard let extensionDic = dic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
+                    return
+                }
+                guard let realExtensionDic = extensionDic[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else {
+                    return
+                }
+                if let headText = realExtensionDic.valueForKey("head") as? String, let bodyText = realExtensionDic.valueForKey("body") as? String {
+                    htmlText = htmlText + "<head>\n" + headText + "</head>\n<body>\n" + bodyText + "\n</body>"
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.title = realExtensionDic.valueForKey("title") as? String
+                        self.highlighter.sourceString = htmlText
+                        self.htmlTextView.attributedText = self.highlighter.highlightedString
+                    }
+                }
+            }
+        }
 
 
         
@@ -82,55 +60,39 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //    override func viewDidLayoutSubviews() {
 //        htmlTextView.frame = view.bounds
 //    }
-    
-    func updateTextStorageWithText(text: String) {
-//        dispatch_async(dispatch_get_main_queue()){
-            self.textStorage.beginEditing()
-            self.textStorage.appendAttributedString(NSMutableAttributedString(string: text, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
-            self.textStorage.endEditing()
-//        }
-    }
-    
-    func createTextView() {
-        let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
-        let attrString = NSAttributedString(string: "", attributes: attrs)
-        
+    func initializeHighlighter() {
         do {
             let HTMLTagregularExpression = try NSRegularExpression(pattern: "<\\w*[ >]", options: .CaseInsensitive)
             let HTMLTagEndregularExpression = try NSRegularExpression(pattern: "<\\/\\w*>", options: .CaseInsensitive)
             let HTMLTagColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
             let HTMLTagAttribute = [NSForegroundColorAttributeName : HTMLTagColor]
-            textStorage = PBHighlightTextStorage(text: "", highlightRules: [HTMLTagregularExpression : HTMLTagAttribute, HTMLTagEndregularExpression : HTMLTagAttribute])
+            highlighter = PBAttributedStringHighlighter(text: "", highlightRules: [HTMLTagregularExpression : HTMLTagAttribute, HTMLTagEndregularExpression : HTMLTagAttribute])
         } catch let error{
-            textStorage = PBHighlightTextStorage()
+            highlighter = PBAttributedStringHighlighter()
             print(error)
         }
-        textStorage.appendAttributedString(attrString)
-        
-        let newTextViewRect = view.bounds
-
-        let layoutManager = NSLayoutManager()
-        layoutManager.allowsNonContiguousLayout = true
-        
-        let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
-        let container = NSTextContainer(size: containerSize)
-        container.widthTracksTextView = true
-        layoutManager.addTextContainer(container)
-        textStorage.addLayoutManager(layoutManager)
-        
-        htmlTextView = UITextView(frame: newTextViewRect, textContainer: container)
-//        htmlTextView = UITextView(frame: newTextViewRect) //使用默认UITextView
-        htmlTextView.delegate = self
+    }
+    
+    func createTextView() {
+        htmlTextView = UITextView(frame: self.view.bounds) //使用默认UITextView
         htmlTextView.editable = false
+        htmlTextView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+//        为htmlTextView添加约束
+//        let views = ["htmlTextView": htmlTextView]
+//        let hFormatString = "|[htmlTextView]|"
+//        let vFormatString = "V:|[htmlTextView]|"
+//        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat(hFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
+//        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
+//        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
+//        htmlTextView.delegate = self
         view.addSubview(htmlTextView)
-        
     }
     
     
     
-//    override func viewWillLayoutSubviews() {
-//        htmlTextView.frame = view.bounds
-//    }
+    override func viewWillLayoutSubviews() {
+        htmlTextView.frame = view.bounds
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
