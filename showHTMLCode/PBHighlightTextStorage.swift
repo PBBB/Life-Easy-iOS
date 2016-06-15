@@ -10,10 +10,10 @@ import UIKit
 
 class PBHighlightTextStorage: NSTextStorage {
     var _attributedString: NSMutableAttributedString
-    var _highlightRules: [NSRegularExpression : [String : AnyObject]]?
+    var _highlightRules: [RegularExpression : [String : AnyObject]]?
     
     //自定义初始化方法
-    init(text: String, highlightRules: [NSRegularExpression : [String : AnyObject]]?) {
+    init(text: String, highlightRules: [RegularExpression : [String : AnyObject]]?) {
         self._attributedString = NSMutableAttributedString(string: text)
         self._highlightRules = highlightRules
         super.init()
@@ -25,23 +25,23 @@ class PBHighlightTextStorage: NSTextStorage {
     
     required init?(coder aDecoder: NSCoder) {
         print("init with coder")
-        if let text = aDecoder.decodeObjectForKey("_attributedString") as? NSMutableAttributedString {
+        if let text = aDecoder.decodeObject(forKey: "_attributedString") as? NSMutableAttributedString {
             self._attributedString = text
         } else {
             self._attributedString = NSMutableAttributedString()
         }
         
-        if let rules = aDecoder.decodeObjectForKey("_highlightRules") as? [NSRegularExpression : [String : AnyObject]] {
+        if let rules = aDecoder.decodeObject(forKey: "_highlightRules") as? [RegularExpression : [String : AnyObject]] {
             self._highlightRules = rules
         }
         super.init(coder: aDecoder)
     }
     
-    override func encodeWithCoder(aCoder: NSCoder) {
+    override func encode(with aCoder: NSCoder) {
         print("encode with coder")
-        super.encodeWithCoder(aCoder)
-        aCoder.encodeObject(_attributedString, forKey: "_attributedString")
-        aCoder.encodeObject(_highlightRules, forKey: "_highlightRules")
+        super.encode(with: aCoder)
+        aCoder.encode(_attributedString, forKey: "_attributedString")
+        aCoder.encode(_highlightRules, forKey: "_highlightRules")
     }
     
     
@@ -51,22 +51,22 @@ class PBHighlightTextStorage: NSTextStorage {
         return _attributedString.string
     }
     
-    override func attributesAtIndex(location: Int, effectiveRange range: NSRangePointer) -> [String : AnyObject] {
-        return _attributedString.attributesAtIndex(location, effectiveRange: range)
+    override func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [String : AnyObject] {
+        return _attributedString.attributes(at: location, effectiveRange: range)
     }
     
-    override func replaceCharactersInRange(range: NSRange, withString str: String) {
+    override func replaceCharacters(in range: NSRange, with str: String) {
         beginEditing()
-        _attributedString.replaceCharactersInRange(range, withString: str)
-        self.edited(.EditedCharacters, range: range,
+        _attributedString.replaceCharacters(in: range, with: str)
+        self.edited(.editedCharacters, range: range,
                     changeInLength: (str as NSString).length - range.length)
         endEditing()
     }
     
-    override func setAttributes(attrs: [String : AnyObject]?, range: NSRange) {
+    override func setAttributes(_ attrs: [String : AnyObject]?, range: NSRange) {
         beginEditing()
         _attributedString.setAttributes(attrs, range: range)
-        self.edited(.EditedAttributes, range: range, changeInLength: 0)
+        self.edited(.editedAttributes, range: range, changeInLength: 0)
         endEditing()
     }
     

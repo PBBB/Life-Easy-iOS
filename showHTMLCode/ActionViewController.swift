@@ -43,7 +43,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vFormatString, options: .DirectionLeadingToTrailing, metrics: nil, views: views)
 //        NSLayoutConstraint.activateConstraints(hConstraints + vConstraints)
         var htmlText = ""
-        let string = try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("SampleText", ofType: "txt")!)
+        let string = try! String(contentsOfFile: Bundle.main().pathForResource("SampleText", ofType: "txt")!)
         htmlText = string
 //        htmlTextView.text = htmlText
         self.updateTextStorageWithText(htmlText)
@@ -83,21 +83,21 @@ class ActionViewController: UIViewController, UITextViewDelegate {
 //        htmlTextView.frame = view.bounds
 //    }
     
-    func updateTextStorageWithText(text: String) {
+    func updateTextStorageWithText(_ text: String) {
 //        dispatch_async(dispatch_get_main_queue()){
             self.textStorage.beginEditing()
-            self.textStorage.appendAttributedString(NSMutableAttributedString(string: text, attributes: [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]))
+            self.textStorage.append(NSMutableAttributedString(string: text, attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: UIFontTextStyleBody)]))
             self.textStorage.endEditing()
 //        }
     }
     
     func createTextView() {
-        let attrs = [NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
-        let attrString = NSAttributedString(string: "", attributes: attrs)
+        let attrs = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: UIFontTextStyleBody)]
+        let attrString = AttributedString(string: "", attributes: attrs)
         
         do {
-            let HTMLTagregularExpression = try NSRegularExpression(pattern: "<\\w*[ >]", options: .CaseInsensitive)
-            let HTMLTagEndregularExpression = try NSRegularExpression(pattern: "<\\/\\w*>", options: .CaseInsensitive)
+            let HTMLTagregularExpression = try RegularExpression(pattern: "<\\w*[ >]", options: .caseInsensitive)
+            let HTMLTagEndregularExpression = try RegularExpression(pattern: "<\\/\\w*>", options: .caseInsensitive)
             let HTMLTagColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
             let HTMLTagAttribute = [NSForegroundColorAttributeName : HTMLTagColor]
             textStorage = PBHighlightTextStorage(text: "", highlightRules: [HTMLTagregularExpression : HTMLTagAttribute, HTMLTagEndregularExpression : HTMLTagAttribute])
@@ -105,14 +105,14 @@ class ActionViewController: UIViewController, UITextViewDelegate {
             textStorage = PBHighlightTextStorage()
             print(error)
         }
-        textStorage.appendAttributedString(attrString)
+        textStorage.append(attrString)
         
         let newTextViewRect = view.bounds
 
         let layoutManager = NSLayoutManager()
         layoutManager.allowsNonContiguousLayout = true
         
-        let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
+        let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.greatestFiniteMagnitude)
         let container = NSTextContainer(size: containerSize)
         container.widthTracksTextView = true
         layoutManager.addTextContainer(container)
@@ -121,7 +121,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
         htmlTextView = UITextView(frame: newTextViewRect, textContainer: container)
 //        htmlTextView = UITextView(frame: newTextViewRect) //使用默认UITextView
         htmlTextView.delegate = self
-        htmlTextView.editable = false
+        htmlTextView.isEditable = false
         view.addSubview(htmlTextView)
         
     }
@@ -140,7 +140,7 @@ class ActionViewController: UIViewController, UITextViewDelegate {
     @IBAction func done() {
         // Return any edited content to the host app.
         // This template doesn't do anything, so we just echo the passed in items.
-        self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
+        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
     }
     
 
